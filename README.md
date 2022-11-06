@@ -1,6 +1,9 @@
 # Pystock
 Pystock is an open source Stocks market simulator, currently in development If you have any cuestions contac me on twitter @http_igj
 
+# Requierments
+You will need to have [Matplotlib](https://matplotlib.org/)
+
 # Use
 When you run the main file it will pop up a graph, thats the company graph that you will trade with. 
 You have a inicial balance of 100 units.

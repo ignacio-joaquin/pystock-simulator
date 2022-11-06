@@ -5,107 +5,107 @@ from turtle import color
 
 i = 0
 new_saldo = 0
-Tieneacc = 0
-timesSubiendo = 0
-timesBajando = 0
-timesEstando = 0
+hasacc = 0
+timesUp = 0
+timesDown = 0
+timesFrezze = 0
 z = 0
 x = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-def Decididor(Tendencia, timesSubiendo, timesEstando, timesBajando): # 1 = crece, 0 = se mantiene, -1 = baja
-    chances = random.randint(0,100)
+def Decider(Tendency, timesUp, timesFrezze, timesDown): # This fuction decides if the graph goes up, down or flat. 1 for up, 0 for flat, -1 for down.
+    odds = random.randint(0,100)
     
-    if Tendencia > 0: #si aumenta
-        timesEstando = 0
-        timesBajando = 0
-        if timesSubiendo == 0:
-            if chances < 41 :
-                timesSubiendo = timesSubiendo+1                
+    if Tendency > 0: #if tendency is to go up
+        timesFrezze = 0
+        timesDown = 0
+        if timesUp == 0:
+            if odds < 41 :
+                timesUp = timesUp+1                
                 return 1
         
-            if chances >= 41 and chances <= 70:
+            if odds >= 41 and odds <= 70:
                 return 0
         
-            if chances > 70 :
+            if odds > 70 :
                 return -1
         
-        if timesSubiendo == 1:
-            if chances < 31 :
-                timesSubiendo = timesSubiendo+1                
+        if timesUp == 1:
+            if odds < 31 :
+                timesUp = timesUp+1                
                 return 1
         
-            if chances >= 31 and chances <= 70 :
+            if odds >= 31 and odds <= 70 :
                 return 0
         
-            if chances > 70 :
+            if odds > 70 :
                 return -1 
 
-        if timesSubiendo > 1:
-            if chances < 21 :
-                timesSubiendo = timesSubiendo+1               
+        if timesUp > 1:
+            if odds < 21 :
+                timesUp = timesUp+1               
                 return 1
         
-            if chances >= 21 and chances <= 60 :
+            if odds >= 21 and odds <= 60 :
                 return 0
         
-            if chances > 60 :
+            if odds > 60 :
                 return -1                       
 
-    if Tendencia == 0: #si viene igual
-        timesBajando = 0
-        timesSubiendo = 0
-        if timesEstando == 0:
-            if chances < 31 :
+    if Tendency == 0: #if tendency is to go flat
+        timesDown = 0
+        timesUp = 0
+        if timesFrezze == 0:
+            if odds < 31 :
                 return 1
         
-            if chances >= 31 and chances <= 70:
-                timesEstando = timesEstando+1                
+            if odds >= 31 and odds <= 70:
+                timesFrezze = timesFrezze+1                
                 return 0
         
-            if chances > 70 :
+            if odds > 70 :
                 return -1         
 
-        if timesEstando > 0:
-            if chances < 41 :
+        if timesFrezze > 0:
+            if odds < 41 :
                 return 1
         
-            if chances >= 41 and chances <= 60:
-                timesEstando = timesEstando+1
+            if odds >= 41 and odds <= 60:
+                timesFrezze = timesFrezze+1
                 return 0
         
-            if chances > 60 :
+            if odds > 60 :
                 return -1   
 
-    if Tendencia < 0: #si baja    
-        timesEstando = 0
-        timesSubiendo = 0
-        if timesBajando == 0:
-            if chances < 36:
-                timesBajando = timesBajando+1                
+    if Tendency < 0: #if tendency is to go down   
+        timesFrezze = 0
+        timesUp = 0
+        if timesDown == 0:
+            if odds < 36:
+                timesDown = timesDown+1                
                 return -1
         
-            if chances >=36 :
+            if odds >=36 :
                 return 0   
         
-        if timesBajando == 1:
-            if chances < 36:              
+        if timesDown == 1:
+            if odds < 36:              
                 return 0
         
-            if chances >=36 :
-                timesBajando = timesBajando+1                
+            if odds >=36 :
+                timesDown = timesDown+1                
                 return -1              
 
-        if timesBajando > 1:
-            if chances < 50:              
+        if timesDown > 1:
+            if odds < 50:              
                 return 0
         
-            if chances >= 50 :
-                timesBajando = timesBajando+1                
+            if odds >= 50 :
+                timesDown = timesDown+1                
                 return -1              
 
-def AvanzadorY(list, Tendencia, timesSubiendo, timesEstando, timesBajando):
+def AvanzadorY(list, Tendency, timesUp, timesFrezze, timesDown): #this fuction will update the list whit the stock value
     list.pop(0)
-    d = Decididor(Tendencia, timesSubiendo, timesEstando, timesBajando)
+    d = Decider(Tendency, timesUp, timesFrezze, timesDown)
     if d > 0:
         a = list[8]+1
         b = list[8]+5
@@ -124,64 +124,64 @@ def AvanzadorY(list, Tendencia, timesSubiendo, timesEstando, timesBajando):
         n = random.randint(b, a)
         list.append(n)
 
-def AvanzadorX(list):
+def AvanzadorX(list): #this fuction will update the list whit the time value
     list.pop(0)
     n = list[8]
     list.append(n+1)
     return list
 
-def plot(y,nombre):
+def plot(y,nombre): #this fuction plots the graph
     plt.plot(x, y)
     plt.xlabel('Tiempo')
     plt.ylabel('Precio')
     plt.title(nombre)
     plt.show(block=False)
    
-def IniRandomY(worst,best):
+def IniRandomY(worst,best): #this fuction just make a random list to start the first graph
     randomlist = []
     for i in range(0,10):
         n = random.randint(worst,best)
         randomlist.append(n)
     return randomlist
 
-def GuardarY(Y):
+def SaveY(Y): #this fuction saves y values
     Ystr = ' '.join(map(str, Y))
     with open('y.txt', 'w') as f:
         f.write(Ystr)
 
-def GuardarX(X):
+def SaveX(X): #this fuction saves x values
     Xstr = ' '.join(map(str, X))
     with open('x.txt', 'w') as f:
         f.write(Xstr)
 
-def LectorY():
+def ReaderY(): #this fuction reads y values
     my_file = open("y.txt", "r")
     data = my_file.read()
     data_into_list = data.split(" ")
     new_char = [int(x) for x in data_into_list]
     return new_char
 
-def LectorX():
+def ReaderX(): #this fuction reads x values
     my_file = open("x.txt", "r")
     data = my_file.read()
     data_into_list = data.split(" ")
     new_char = [int(x) for x in data_into_list]
     return new_char
 
-def refresh(z):
-    Y = LectorY()
+def refresh(z): #this fuction refresh the graph
+    Y = ReaderY()
     B = 'b'
-    o = LectorX()
-    Tendencia = Y[4] - Y[3]
-    AvanzadorY(Y, Tendencia, timesSubiendo, timesEstando, timesBajando)
+    o = ReaderX()
+    Tendency = Y[4] - Y[3]
+    AvanzadorY(Y, Tendency, timesUp, timesFrezze, timesDown)
     x = AvanzadorX(o)
-    GuardarY(Y)
-    GuardarX(x)
+    SaveY(Y)
+    SaveX(x)
     plot(Y,B)
     z = z+1
 
 
-def comprar(saldo, num):
+def comprar(saldo, num): #this fuction let you buy stocks
     my_file = open("y.txt", "r")
     data = my_file.read()
     data_into_list = data.split(" ")
@@ -189,7 +189,7 @@ def comprar(saldo, num):
     saldo = saldo - new_char[9] * num
     return saldo
 
-def vender(saldo, num):
+def vender(saldo, num): #this fuction let you sell stocks
     my_file = open("y.txt", "r")
     data = my_file.read()
     data_into_list = data.split(" ")
@@ -197,36 +197,36 @@ def vender(saldo, num):
     saldo = saldo + new_char[9] * num
     return saldo 
 
-def acc(saldo, Tieneacc):
+def acc(saldo, hasacc): #this fuction its the interactive part of the program
     while True:
         print("Desea comprar, vender, o pasar?")
         a = input()
         if a == "comprar":
             print("Cuantas acciones?")
             num = input()
-            accionval = LectorY()
+            accionval = ReaderY()
             if(saldo >= int(num) * accionval[9]):
                 saldo = comprar(saldo, int(num))
-                Tieneacc = int(num)
-                return saldo, Tieneacc
+                hasacc = int(num)
+                return saldo, hasacc
             else:
                 print("Saldo insuficiente, pruebe con menos acciones")
-        if a == "vender" and Tieneacc >= 1:
-            saldo = vender(saldo, Tieneacc)
-            Tieneacc = 0
-            return saldo, Tieneacc
+        if a == "vender" and hasacc >= 1:
+            saldo = vender(saldo, hasacc)
+            hasacc = 0
+            return saldo, hasacc
         if a == "pasar":
-            return saldo, Tieneacc
-        if a == "vender" and Tieneacc == 0:
+            return saldo, hasacc
+        if a == "vender" and hasacc == 0:
             print("Usted no tiene acciones para vender")        
         else:
             print("Comando desconocido")
 
-def ini():
+def ini(): #this fuction plots the firts graph
     Y = IniRandomY(0,50)
-    GuardarY(Y)
-    GuardarX(x)
-    A = 'Inicial'
+    SaveY(Y)
+    SaveX(x)
+    A = 'Inicial' #name of the graph
     plot(Y,A)
 
 
@@ -240,11 +240,11 @@ print("--------------------------------------------------")
 print(" ")
 print(" ")
 print("Tiene un saldo de $100")
-saldo = 100
+saldo = 100 #inicial saldo
 
-ini()
-while i==0:
-    saldo, Tieneacc = acc(saldo, Tieneacc)
-    print("Saldo restante " + str(saldo))
-    plt.close()
-    refresh(z)
+ini() #start the stocks
+while i==0: 
+    saldo, hasacc = acc(saldo, hasacc) #ask what you want to do
+    print("Saldo restante " + str(saldo)) #let you now the saldo
+    plt.close() #close the old graph
+    refresh(z) #new graph
